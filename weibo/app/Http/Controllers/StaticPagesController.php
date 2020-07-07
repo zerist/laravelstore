@@ -20,4 +20,9 @@ class StaticPagesController extends Controller
     {
         return view('static_pages/about');
     }
+
+    public function test()
+    {
+        return env("APP_URL");
+    }
 }
