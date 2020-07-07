@@ -25,3 +25,4 @@ Route::get('/test', 'StaticPagesController@test')->name('test');
  * user显示相关页面route
  */
 Route::get('/signup', 'UsersController@create')->name('signup');
+Route::resource('users', 'UsersController');
