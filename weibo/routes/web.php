@@ -38,3 +38,8 @@ Route::delete('logout', 'SessionsController@destroy')->name('logout');
  * email验证
  */
 Route::get('signup/confirm/{token}', 'UsersController@confirmEmail')->name('confirm_email');
+
+/**
+ * statuses resource
+ */
+Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
