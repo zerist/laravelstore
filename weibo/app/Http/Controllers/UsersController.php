@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Faker\Generator as Faker;
 
 class UsersController extends Controller
 {
@@ -12,7 +15,7 @@ class UsersController extends Controller
     public function __construct()
     {
         $this->middleware('auth', [
-            'except' => ['show', 'create', 'store', 'index']
+            'except' => ['show', 'create', 'store', 'index', 'confirmEmail']
         ]);
 
         $this->middleware('guest', [
@@ -51,9 +54,9 @@ class UsersController extends Controller
             'password' => bcrypt($request->password)
         ]);
 
-        Auth::login($user);
-        session()->flash('success', "Welcome {$user->name}!");
-        return redirect()->route('users.show', [$user]);
+        $this->sendEmailConfirmtionTo($user);
+        session()->flash('success', "Please Confirm Your Email!");
+        return redirect()->route('home');
     }
 
     public function edit(User $user)
@@ -89,5 +92,33 @@ class UsersController extends Controller
         $user->delete();
         session()->flash('success', "Delete User {$user->name} successful");
         return back();
+    }
+
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->email_verified_at = Carbon::now()->format('Y-m-d H:m:s');
+        $user->save();
+
+        Auth::login($user);
+        session()->flash('success', 'Your account has activated!');
+        return redirect()->route('users.show', [$user]);
+    }
+
+    public function sendEmailConfirmtionTo($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = '1518079220@qq.com';
+        $name = 'Xukang';
+        $to = $user->email;
+        $subject = 'Confirm Email';
+
+        Mail::send($view, $data, function($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
     }
 }

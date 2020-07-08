@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+
 class SessionsController extends Controller
 {
     public function __construct()
@@ -25,10 +27,16 @@ class SessionsController extends Controller
             'password' => 'required'
         ]);
 
-        if(Auth::attempt($credentials, $request->has('remember'))) {
-            session()->flash('success', 'Welcome back!');
-            $fallback = route('users.show', Auth::user());
-            return redirect()->intended($fallback);
+        if (Auth::attempt($credentials, $request->has('remember'))) {
+            if (Auth::user()->activated) {
+                session()->flash('success', 'Welcome back!');
+                $fallback = route('users.show', Auth::user());
+                return redirect()->intended($fallback);
+            } else {
+                Auth::logout();
+                session()->flash('warning', 'Your account is not activated!');
+                return redirect('/');
+            }
         } else {
             session()->flash('danger', 'Sorry, Wrong email or password!');
             return redirect()->back()->withInput();
