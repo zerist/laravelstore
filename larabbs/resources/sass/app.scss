@@ -1,1 +1,26 @@
-//
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+//fontawesome
+
+
+//body
+body {
+    font-family: Helvetica, 'Microsoft YaHei', Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 60px;
+}
+
+
+/* Sticky footer styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
