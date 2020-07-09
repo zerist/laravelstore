@@ -43,3 +43,10 @@ Route::get('signup/confirm/{token}', 'UsersController@confirmEmail')->name('conf
  * statuses resource
  */
 Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
+
+
+/**
+ * follow
+ */
+Route::get('/users/{user}/followings', 'UsersController@followings')->name('followings');
+Route::get('/users/{user}/followings', 'UsersController@followers')->name('users.followers');
