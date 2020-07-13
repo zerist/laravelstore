@@ -20,7 +20,14 @@ class UsersController extends Controller
 
     public function update(UserRequest $request, User $user)
     {
-        $user->update($request->all());
+        $data = $request->all();
+
+        if ($request->avatar) {
+            $path = $request->avatar->store('images');
+            $data['avatar'] = $path;
+        }
+
+        $user->update($data);
         return redirect()->route('users.show', $user->id)->with('success', 'Profile update success!');
     }
 }

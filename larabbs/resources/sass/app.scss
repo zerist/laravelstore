@@ -12,6 +12,7 @@
 @import "~@fortawesome/fontawesome-free/scss/regular";
 @import "~@fortawesome/fontawesome-free/scss/solid";
 @import "~@fortawesome/fontawesome-free/scss/brands";
+@import "~@fortawesome/fontawesome-free/scss/v4-shims.scss";
 
 //body
 body {
@@ -33,4 +34,13 @@ html {
     border: 1px solid;
     border-radius: 4px;
     padding: 3px;
+}
+
+/* for iconfont symbol */
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
 }
