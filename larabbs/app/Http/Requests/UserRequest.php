@@ -28,6 +28,7 @@ class UserRequest extends FormRequest
             'name' => ['required', 'between:3,25', 'regex:/^[A-Za-z0-9\-\_]+$/', 'unique:users,name,' . Auth::id()],
             'email' => ['required', 'email'],
             'introduction' => 'max:80',
+            'avatar' => ['mimes:jpeg,bmp,png,gif', 'dimensions:min_width=208,min_height=208'],
         ];
     }
 
@@ -37,7 +38,9 @@ class UserRequest extends FormRequest
             'name.unique' => 'Name existed!',
             'name.regex' => 'Name must with Alpha, Number, - or _!',
             'name.between' => 'Name Length must in 3-25 chars!',
-            'name.required' => 'Name cannt be null!'
+            'name.required' => 'Name cannt be null!',
+            'avatar.mimes' => 'Images must be jpeg, bmp, png, gif!',
+            'avatar.dimensions' => 'Image width & height gt 208px!',
         ];
     }
 }

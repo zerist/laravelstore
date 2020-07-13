@@ -37,7 +37,7 @@
 
                         @if($user->avatar)
                             <br>
-                            <img class="img-thumbnail" src="{{ $user->avatar }}" alt="avatar" width="200px">
+                            <img class="img-thumbnail" src="{{ url($user->avatar) }}" alt="avatar" width="200px">
                         @endif
 
                         <div class="well well-sm">
