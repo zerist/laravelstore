@@ -23,7 +23,7 @@
                                     <ol class="breadcrumb">
                                         <li class="breadcrumb-item">
                                             <p>
-                                                <a class="text-secondary" href="#" title="{{ $topic->category->name }}">
+                                                <a class="text-secondary" href="{{ route('categories.show', $topic->category_id) }}" title="{{ $topic->category->name }}">
                                                     <ion-icon name="pricetag-outline"></ion-icon>
                                                     {{ $topic->category->name }}
                                                 </a>

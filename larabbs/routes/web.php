@@ -40,6 +40,10 @@ Route::resource('users', 'UsersController', ['only'=>['show', 'update', 'edit']]
 
 
 //topic 相关
-Route::prefix('/topics')->group(function () {
+Route::prefix('topics')->group(function () {
     Route::get('/', 'TopicsController@index')->name('topics.index');
 });
+
+
+//category 相关
+Route::resource('categories', 'CategoriesController', ['only' => ['show']]);

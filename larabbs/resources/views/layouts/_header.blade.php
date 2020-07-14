@@ -11,8 +11,22 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <!-- Left Side Of Navbar -->
-            <ul class="navbar-nav mr-auto">
-
+            <ul class="nav mr-auto nav-pills" id="pills-tab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link @if (request()->url() == route('topics.index')) active @endif" href="{{ route('topics.index') }}">Topics</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link @if (request()->url() == route('categories.show', 1)) active @endif" href="{{ route('categories.show', 1) }}">Share</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link @if (request()->url() == route('categories.show', 2)) active @endif" href="{{ route('categories.show', 2) }}">Lesson</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link @if (request()->url() == route('categories.show', 3)) active @endif" href="{{ route('categories.show', 3) }}">Q&A</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link @if (request()->url() == route('categories.show', 4)) active @endif" href="{{ route('categories.show', 4) }}">Notice</a>
+                </li>
             </ul>
 
             <!-- Right Side Of Navbar -->
