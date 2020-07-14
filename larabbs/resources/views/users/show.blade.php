@@ -8,7 +8,7 @@
 
         <div class="col-lg-3 col-md-3 hidden-sm hidden-xs user-info">
             <div class="card ">
-                <img class="card-img-top" src="{{ asset('/') .$user->avatar }}" alt="{{ $user->name }}" width="200">
+                <img class="card-img-top" src="{{ $user->avatar }}" alt="{{ $user->name }}" width="200">
                 <div class="card-body">
                     <h5><strong>个人简介</strong></h5>
                     <p> {{ $user->introduction }} </p>
@@ -29,7 +29,15 @@
             {{-- 用户发布的内容 --}}
             <div class="card ">
                 <div class="card-body">
-                    暂无数据 ~_~
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a class="nav-link active bg-transparent" href="#">Ta Topics</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Ta Reply</a>
+                        </li>
+                    </ul>
+                    @include('users._topics', ['topics'=>$user->topics()->recent()->paginate(5)])
                 </div>
             </div>
 

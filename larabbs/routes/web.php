@@ -42,6 +42,7 @@ Route::resource('users', 'UsersController', ['only'=>['show', 'update', 'edit']]
 //topic 相关
 Route::prefix('topics')->group(function () {
     Route::get('/', 'TopicsController@index')->name('topics.index');
+    Route::get('{id}', 'TopicsController@show')->name('topics.show');
 });
 
 

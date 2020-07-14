@@ -14,10 +14,10 @@
                 <div class="card-header bg-transparent">
                     <ul class="nav nav-pills">
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Last Reply</a>
+                            <a class="nav-link @if(request()->getUri() == url('/topics?order=default') ) active @endif" href="{{ Request::url() }}?order=default">Last Reply</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Last Updated</a>
+                            <a class="nav-link @if(request()->getUri() == url('/topics?order=recent') ) active @endif" href="{{ Request::url() }}?order=recent">Last Updated</a>
                         </li>
                     </ul>
                 </div>

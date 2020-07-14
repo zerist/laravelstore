@@ -12,7 +12,7 @@
                         <div class="col-md-10">
                             <div class="card-body">
                                 <h5 class="card-title">
-                                    <a href="{{ route('topics.index', [$topic->id]) }}" title="{{ $topic->title }}">
+                                    <a href="{{ route('topics.show', [$topic->id]) }}" title="{{ $topic->title }}">
                                         {{ $topic->title }}
                                         <p class="text-right d-inline float-right">
                                             <span class="badge badge-pill badge-secondary">{{ $topic->reply_count }}</span>
