@@ -42,7 +42,10 @@ Route::resource('users', 'UsersController', ['only'=>['show', 'update', 'edit']]
 //topic 相关
 Route::prefix('topics')->group(function () {
     Route::get('/', 'TopicsController@index')->name('topics.index');
-    Route::get('{id}', 'TopicsController@show')->name('topics.show');
+    Route::get('{topic}', 'TopicsController@show')->name('topics.show')->where('topic', '[0-9]+');
+    Route::get('create/{topic?}', 'TopicsController@create')->name('topics.create');
+    Route::post('/', 'TopicsController@store')->name('topics.store');
+    Route::put('{topic}', 'TopicsController@update')->name('topics.update');
 });
 
 

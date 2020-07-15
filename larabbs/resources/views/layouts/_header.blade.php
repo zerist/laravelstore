@@ -50,6 +50,10 @@
                                 <ion-icon name="create-outline"></ion-icon>
                                 编辑资料
                             </a>
+                            <a class="dropdown-item" href="{{ route('topics.create') }}">
+                                <ion-icon name="add-circle-outline"></ion-icon>
+                                Post
+                            </a>
                             <div class="dropdown-divider"></div>
                             <a class="dropdown-item" id="logout" href="#">
                                 <form action="{{ route('logout') }}" method="POST" onsubmit="return confirm('Confirm Quit?')">
