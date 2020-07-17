@@ -13,6 +13,8 @@
 
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+
+    @yield('styles')
 </head>
 
 <body>
@@ -34,6 +36,7 @@
 <!-- Scripts -->
 <script src="{{ mix('js/app.js') }}"></script>
 <script src="https://unpkg.com/ionicons@5.1.2/dist/ionicons.js"></script>
+@yield('scripts')
 </body>
 
 </html>
