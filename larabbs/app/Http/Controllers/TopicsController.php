@@ -23,16 +23,17 @@ class TopicsController extends Controller
         return view('topics.index', compact('topics'));
     }
 
+    public function show(Topic $topic)
+    {
+        return view('topics.show', compact('topic'));
+    }
+
     public function create(Topic $topic)
     {
         $categories = Category::all();
         return view('topics.create_and_edit', compact('topic', 'categories'));
     }
 
-    public function show(Topic $topic)
-    {
-        return "todo";
-    }
 
     public function store(TopicRequest $request, Topic $topic)
     {
@@ -41,5 +42,23 @@ class TopicsController extends Controller
         $topic->save();
 
         return redirect()->route('topics.show', $topic->id)->with('success', 'Topic create success!');
+    }
+
+    public function uploadImage(Request $request)
+    {
+        $data = [
+            'success' => false,
+            'msg' => 'upload failed!',
+            'file_path' => ''
+        ];
+        if ($file = $request->upload_file) {
+            // 保存文件
+            $path = $request->file('upload_file')->store('public/topic_images');
+
+            $data['file_path'] = $path;
+            $data['msg'] = 'upload success!';
+            $data['success'] = true;
+        }
+        return $data;
     }
 }

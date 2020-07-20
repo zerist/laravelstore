@@ -46,8 +46,11 @@ Route::prefix('topics')->group(function () {
     Route::get('create/{topic?}', 'TopicsController@create')->name('topics.create');
     Route::post('/', 'TopicsController@store')->name('topics.store');
     Route::put('{topic}', 'TopicsController@update')->name('topics.update');
+    Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
 });
 
 
 //category 相关
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
+
+

@@ -54,8 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
 
-    'asset_url' => env('ASSET_URL', 'http://localhost/learn/laravelstore/larabbs/public/'),
-    'mix_url' => env('MIX_ASSET_URL', 'http://localhost/learn/laravelstore/weibo/public/'),
+    'asset_url' => env('ASSET_URL', 'http://localhost:81/'),
+    'mix_url' => env('MIX_ASSET_URL', 'http://localhost:81/'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

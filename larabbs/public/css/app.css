@@ -19848,3 +19848,10 @@ html {
   overflow: hidden;
 }
 
+/* simditor */
+
+.simditor-body img {
+  max-width: 100%;
+  border-radius: 10%;
+}
+

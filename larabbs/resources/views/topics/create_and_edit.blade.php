@@ -16,6 +16,7 @@
                             编辑话题
                         @else
                             新建话题
+                            <i class="fa fa-clock"></i>
                         @endif
                     </h2>
 
@@ -64,7 +65,17 @@
         $(document).ready(function () {
             let editor = new Simditor({
                 textarea: $('#editor'),
+                upload: {
+                    url: '{{ route('topics.upload_image') }}',
+                    params: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    fileKey: 'upload_file',
+                    connectionCount: 3,
+                    leaveConfirm: 'file uploading ...',
+                },
+                pasteImage: true,
             });
-        })
+        });
     </script>
 @stop

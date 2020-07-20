@@ -11,8 +11,11 @@
 
     <title>@yield('title', 'LaraBBS') - Laravel</title>
 
+    <meta name="description" content="@yield('description', 'laraBBS')">
+
     <!-- Styles -->
     <link href="{{ mix('css/app.css') }}" rel="stylesheet">
+    <link href="{{ mix('css/test/_test.css') }}" rel="stylesheet">
 
     @yield('styles')
 </head>
