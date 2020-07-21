@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Handlers\SlugTranslateHandler;
+use App\Jobs\TranslateSlug;
 use App\Models\Topic;
 
 class TopicOberver
@@ -15,9 +16,12 @@ class TopicOberver
         //生成内容摘要
         $topic->except = make_except($topic->body);
 
-        //生成slug字段
+    }
+
+    public function saved(Topic $topic)
+    {
         if ( ! $topic->slug) {
-            $topic->slug = app(SlugTranslateHandler::class)->translate($topic->title);
+            dispatch(new TranslateSlug($topic));
         }
     }
 }
