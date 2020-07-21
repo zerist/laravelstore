@@ -14,4 +14,9 @@ class TopicPolicy
     {
         return $user->id == $topic->user_id;
     }
+
+    public function destroy(User $user, Topic $topic)
+    {
+        return $user->id == $topic->user_id;
+    }
 }

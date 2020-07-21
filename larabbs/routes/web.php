@@ -42,11 +42,12 @@ Route::resource('users', 'UsersController', ['only'=>['show', 'update', 'edit']]
 //topic 相关
 Route::prefix('topics')->group(function () {
     Route::get('/', 'TopicsController@index')->name('topics.index');
-    Route::get('{topic}', 'TopicsController@show')->name('topics.show')->where('topic', '[0-9]+');
+    Route::get('{topic}/{slug?}', 'TopicsController@show')->name('topics.show')->where('topic', '[0-9]+');
     Route::get('create/{topic?}', 'TopicsController@create')->name('topics.create');
     Route::post('/', 'TopicsController@store')->name('topics.store');
     Route::put('{topic}', 'TopicsController@update')->name('topics.update');
     Route::post('upload_image', 'TopicsController@uploadImage')->name('topics.upload_image');
+    Route::delete('{topic}', 'TopicsController@destroy')->name('topics.destroy');
 });
 
 

@@ -20,6 +20,11 @@ class Topic extends Model
         return $date->format('Y-m-d H:i:s');
     }
 
+    public function link($params = [])
+    {
+        return route('topics.show', array_merge([$this->id, $this->slug], $params));
+    }
+
     public function category()
     {
         return $this->belongsTo(Category::class);

@@ -41,15 +41,16 @@ class TopicsController extends Controller
         $topic->user_id = Auth::id();
         $topic->save();
 
-        return redirect()->route('topics.show', $topic->id)->with('success', 'Topic create success!');
+        return redirect()->to($topic->link())->with('success', 'Topic create success!');
     }
 
     public function update(TopicRequest $request, Topic $topic)
     {
+        $this->authorize('update', $topic);
         $topic->fill($request->all());
         $topic->update();
 
-        return redirect()->route('topics.show', $topic->id)->with('success', 'Topic update success!');
+        return redirect()->to($topic->link())->with('success', 'Topic update success!');
     }
 
     public function uploadImage(Request $request)
@@ -68,5 +69,12 @@ class TopicsController extends Controller
             $data['success'] = true;
         }
         return $data;
+    }
+
+    public function destroy(Topic $topic)
+    {
+        $this->authorize('destroy', $topic);
+        $topic->delete();
+        return redirect()->route('topics.index')->with('success', 'delete post success!');
     }
 }
