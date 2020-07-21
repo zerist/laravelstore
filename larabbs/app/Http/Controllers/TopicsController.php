@@ -44,6 +44,14 @@ class TopicsController extends Controller
         return redirect()->route('topics.show', $topic->id)->with('success', 'Topic create success!');
     }
 
+    public function update(TopicRequest $request, Topic $topic)
+    {
+        $topic->fill($request->all());
+        $topic->update();
+
+        return redirect()->route('topics.show', $topic->id)->with('success', 'Topic update success!');
+    }
+
     public function uploadImage(Request $request)
     {
         $data = [
