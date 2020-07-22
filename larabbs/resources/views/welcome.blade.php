@@ -96,5 +96,9 @@
                 </div>
             </div>
         </div>
+
+        <div>
+            <p>{{ request()->query }}</p>
+        </div>
     </body>
 </html>

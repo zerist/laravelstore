@@ -12,4 +12,9 @@ class PagesController extends Controller
         //dd(Auth::user()->hasVerifiedEmail());
         return view('pages.root');
     }
+
+    public function welcome()
+    {
+        return view('welcome');
+    }
 }

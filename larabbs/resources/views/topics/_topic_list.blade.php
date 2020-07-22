@@ -1,6 +1,6 @@
 @if(count($topics))
     <ul class="list-group">
-        @foreach($topics as $topic)
+        @foreach($topics ?? '' as $topic)
             <li class="list-group-item">
                 <div class="card mb-3 border-light">
                     <div class="row no-gutters">

@@ -15,7 +15,7 @@
             </ul>
         </div>
         <div class="tab-pane" id="replies">
-            <p>Todo</p>
+            @include('users._replies', ['replies' => $user->replies()->with('topic')->latest()->paginate(5)])
         </div>
     </div>
 @else
