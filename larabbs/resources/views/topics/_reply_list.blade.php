@@ -4,7 +4,7 @@
             <div class="media-left">
                 <a href="{{ route('users.show', [$reply->user_id]) }}">
                     <img class="media-object img-thumbnail mr-3" alt="{{ $reply->user->name }}"
-                         src="{{ $reply->user->avatar }}" style="width:48px;height:48px;"/>
+                         src="{{ url($reply->user->avatar) }}" style="width:48px;height:48px;"/>
                 </a>
             </div>
 
@@ -36,3 +36,6 @@
 
     @endforeach
 </ul>
+<div class="mt-4 pt-1">
+    {{ $replies->links() }}
+</div>

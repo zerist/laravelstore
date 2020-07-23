@@ -55,4 +55,5 @@ Route::prefix('topics')->group(function () {
 //category 相关
 Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 
-
+//reply 相关
+Route::resource('replies', 'RepliesController')->only(['show', 'store', 'destroy']);
