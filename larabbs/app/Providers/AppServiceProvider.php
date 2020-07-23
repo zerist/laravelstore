@@ -6,6 +6,7 @@ use App\Models\Reply;
 use App\Models\Topic;
 use App\Observers\ReplyObserver;
 use App\Observers\TopicOberver;
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
