@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -47,5 +48,16 @@ class User extends Authenticatable implements MustVerifyEmail
     public function replies()
     {
         return $this->hasMany(Reply::class);
+    }
+
+    //回复通知
+    public function notifyReplyToDB($notify)
+    {
+        if ($this->id == Auth::id()) {
+            return;
+        }
+
+        $this->increment('notification_count', 1);
+        $this->notify($notify);
     }
 }
