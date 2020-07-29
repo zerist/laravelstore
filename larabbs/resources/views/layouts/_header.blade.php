@@ -37,10 +37,15 @@
                 <li class="nav-item"><a class="nav-link" href="{{ route('register') }}">Register</a></li>
                 @else
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle d-inline" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <img src="{{ url(Auth::user()->avatar) }}" class="img-responsive img-circle" width="30px" height="30px" alt="img">
                             {{ Auth::user()->name }}
                         </a>
+                        @if (Auth::user()->notification_count > 0)
+                        <a class="nav-link d-inline" href="{{ route('notifications.index') }}">
+                            <span class="badge badge-pill badge-danger">{{ Auth::user()->notification_count }}</span>
+                        </a>
+                        @endif
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" href="{{ route('users.show', Auth::id()) }}">
                                 <ion-icon name="person-circle-outline"></ion-icon>

@@ -57,3 +57,6 @@ Route::resource('categories', 'CategoriesController', ['only' => ['show']]);
 
 //reply 相关
 Route::resource('replies', 'RepliesController')->only(['show', 'store', 'destroy']);
+
+//notification 相关
+Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
