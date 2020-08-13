@@ -3,17 +3,47 @@ require '../vendor/autoload.php';
 use \App\Handlers\SlugTranslateHandler;
 
 
-function alterArrayToQuery($list)
+class Foo
 {
-    $sql = "(";
-    foreach ($list as $item){
-        $sql .= strval($item);
-        if ($item !== end($list)) {
-            $sql .= ',';
-        }
+    private $name = 1;
+    function getClosure($c)
+    {
+        $local = 1;
+        return function ($a) use ($local, $c) {
+            var_dump($local);
+            var_dump($this);
+            var_dump($c);
+            var_dump(debug_backtrace());
+            var_dump(get_defined_vars());
+            //var_dump(get_defined_functions());
+        };
     }
-    $sql .= ")";
-    return $sql;
+
+    public function getFunctions()
+    {
+        var_dump(get_defined_functions());
+    }
+
 }
 
-echo alterArrayToQuery([1,2,3,]);
+$a = (new Foo())->getClosure('ss');
+$a(11);
+
+class Doo
+{
+    public $name = 'ss';
+    public $map = [
+        'ss' => 11
+    ];
+
+    public function setAge($name, $key)
+    {
+        return $this->map[$key] = $name;
+    }
+
+    public function getArgs($name)
+    {
+        var_dump(get_defined_vars());
+    }
+
+}
