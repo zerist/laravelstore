@@ -7,6 +7,8 @@ class Task
     protected $coroutine;
     protected $sendValue = null;
     protected $beforeFirstYield = true;
+    protected $parentTaskId;
+    protected $childTaskIds = [];
 
     public function __construct($taskId, Generator $coroutine)
     {
@@ -17,6 +19,41 @@ class Task
     public function getTaskId()
     {
         return $this->taskId;
+    }
+
+    public function getParentTaskId()
+    {
+        return $this->parentTaskId;
+    }
+
+    public function setParentTaskId($taskId)
+    {
+        $this->parentTaskId = $taskId;
+    }
+
+    public function getChildTaskIds()
+    {
+        return $this->childTaskIds;
+    }
+
+    public function addChildTaskId($taskId)
+    {
+        if (in_array($taskId, $this->childTaskIds)) {
+            return false;
+        }
+        $this->childTaskIds[] = $taskId;
+        return true;
+    }
+
+    public function removeChildTaskId($taskId)
+    {
+        if (!in_array($taskId, $this->childTaskIds)) {
+            return false;
+        }
+        $pos = array_search($taskId, $this->childTaskIds);
+        unset($this->childTaskIds[$pos]);
+
+        return true;
     }
 
     public function setSendValue($sendValue)
@@ -56,6 +93,11 @@ class Scheduler
         $this->taskQueue = new SplQueue();
     }
 
+    public function getTask($taskId)
+    {
+        return $this->taskMap[$taskId] ?: false;
+    }
+
     public function newTask(Generator $coroutine)
     {
         $taskId = ++$this->maxTaskId;
@@ -63,6 +105,18 @@ class Scheduler
         $this->taskMap[$taskId] = $task;
         $this->schedule($task);
         return $taskId;
+    }
+
+    public function newChildTask(Generator $coroutine, $taskId)
+    {
+        $childTaskId = $this->newTask($coroutine);
+        $childTask = $this->getTask($childTaskId);
+        $childTask->setParentTaskId($taskId);
+
+        $parentTask = $this->getTask($taskId);
+        $parentTask->addChildTaskId($childTaskId);
+
+        return $childTaskId;
     }
 
     public function killTask($taskId)
@@ -74,11 +128,30 @@ class Scheduler
 
         foreach ($this->taskQueue as $key => $task) {
             if ($taskId === $task->getTaskId()) {
+                //update parent task
+                $parentTaskId = $task->getParentTaskId();
+                if ($parentTaskId > 0) {
+                    $parentTask = $this->getTask($parentTaskId);
+                    $parentTask->removeChildTaskId($taskId);
+                }
+
                 unset($this->taskQueue[$key]);
                 break;
             }
         }
 
+        return true;
+    }
+
+    public function killTaskWithChildTask($taskId)
+    {
+        //find all child tasks and kill
+        $childTaskIds = $this->getTask($taskId)->getChildTaskIds();
+        foreach ($childTaskIds as $childTaskId) {
+            $this->killTask($childTaskId);
+        }
+        //kill self
+        $this->killTask($taskId);
         return true;
     }
 
@@ -97,6 +170,40 @@ class Scheduler
             $this->waitForWrite[(int) $socket][1][] = $task;
         } else {
             $this->waitForWrite[(int) $socket] = [$socket, [$task]];
+        }
+    }
+
+    protected function ioPoll($timeout)
+    {
+        $rSocks = [];
+        foreach ($this->waitForRead as list($socket)) {
+            $rSocks[] = $socket;
+        }
+
+        $wSocks = [];
+        foreach ($this->waitForWrite as list($scoket)) {
+            $wSocks[] = $socket;
+        }
+
+        $eSocks = [];
+        if (!stream_select($rSocks, $wSocks, $eSocks, $timeout)) {
+            return;
+        }
+
+        foreach ($rSocks as $socket) {
+            list(, $tasks) = $this->waitForRead[(int) $socket];
+            unset($this->waitForRead[(int) $socket]);
+            foreach ($tasks as $task) {
+                $this->schedule($task);
+            }
+        }
+
+        foreach ($wSocks as $sock) {
+            list(, $tasks) = $this->waitForWrite[(int) $scoket];
+            unset($this->waitForWrite[(int) $scoket]);
+            foreach ($tasks as $task) {
+                $this->schedule($task);
+            }
         }
     }
 
@@ -160,7 +267,15 @@ function newTask(Generator $coroutine)
 function killTask($taskId)
 {
     return new SystemCall(function (Task $task, Scheduler $scheduler) use ($taskId) {
-        $task->setSendValue($scheduler->killTask($taskId));
+        $task->setSendValue($scheduler->killTaskWithChildTask($taskId));
+        //$scheduler->schedule($task);
+    });
+}
+
+function newChildTask(Generator $coroutine, $parentTaskId)
+{
+    return new SystemCall(function (Task $task, Scheduler $scheduler) use ($coroutine, $parentTaskId) {
+        $task->setSendValue($scheduler->newChildTask($coroutine, $parentTaskId));
         $scheduler->schedule($task);
     });
 }
@@ -195,11 +310,15 @@ function childTask()
 function task()
 {
     $taskId = (yield getTaskId());
-    $childTaskId = (yield newTask(childTask()));
+    $childTaskId = (yield newChildTask(childTask(), $taskId));
+
     foreach (range(1, 6) as $num) {
         echo "Parent task $taskId iteration $num. \n";
         yield;
-        ($num == 3) and (yield killTask($childTaskId));
+        ($num == 3) and (yield killTask($taskId));
     }
 }
 
+$scheduler = new Scheduler();
+$scheduler->newTask(task());
+$scheduler->run();
