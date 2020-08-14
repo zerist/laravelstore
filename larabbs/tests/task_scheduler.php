@@ -48,6 +48,8 @@ class Scheduler
     protected $maxTaskId = 0;
     protected $taskMap = [];
     protected $taskQueue;
+    protected $waitForRead = [];
+    protected $waitForWrite = [];
 
     public function __construct()
     {
@@ -78,6 +80,24 @@ class Scheduler
         }
 
         return true;
+    }
+
+    public function waitForRead($socket, Task $task)
+    {
+        if (isset($this->waitForRead[(int) $socket])) {
+            $this->waitForRead[(int) $socket][1][] = $task;
+        } else {
+            $this->waitForRead[(int) $socket] = [$socket, [$task]];
+        }
+    }
+
+    public function waitForWrite($socket, Task $task)
+    {
+        if (isset($this->waitForWrite[(int) $socket])) {
+            $this->waitForWrite[(int) $socket][1][] = $task;
+        } else {
+            $this->waitForWrite[(int) $socket] = [$socket, [$task]];
+        }
     }
 
     public function schedule(Task $task)
@@ -145,6 +165,24 @@ function killTask($taskId)
     });
 }
 
+function waitForRead($socket)
+{
+    return new SystemCall(
+        function (Task $task, Scheduler $scheduler) use ($socket) {
+            $scheduler->waitForRead($socket, $task);
+        }
+    );
+}
+
+function waitForWrite($socket)
+{
+    return new SystemCall(
+        function (Task $task, Scheduler $scheduler) use ($socket) {
+            $scheduler->waitForWrite($socket, $task);
+        }
+    );
+}
+
 function childTask()
 {
     $taskId = (yield getTaskId());
@@ -157,14 +195,11 @@ function childTask()
 function task()
 {
     $taskId = (yield getTaskId());
-    $childTask = (yield newTask(childTask()));
+    $childTaskId = (yield newTask(childTask()));
     foreach (range(1, 6) as $num) {
         echo "Parent task $taskId iteration $num. \n";
         yield;
-        ($num == 3) and (yield killTask($childTask));
+        ($num == 3) and (yield killTask($childTaskId));
     }
 }
 
-$scheduler = new Scheduler();
-$scheduler->newTask(task());
-$scheduler->run();
