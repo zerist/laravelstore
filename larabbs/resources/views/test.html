@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style rel="stylesheet">
+        div p {
+            color: #0E0EFF;
+        }
+    </style>
+</head>
+<body>
+<div id="testdiv">
+    <p>p1</p>
+</div>
+
+<script type="application/javascript">
+    let e = document.createElement('p');
+    let node = document.createTextNode("这是新文本。");
+    e.appendChild(node);
+    document.getElementById('testdiv').appendChild(e);
+</script>
+</body>
+</html>

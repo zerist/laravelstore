@@ -1,0 +1,36 @@
+//body
+body {
+    font-family: Helvetica, 'Microsoft YaHei', Arial, sans-serif;
+    font-size: 14px;
+    margin-bottom: 60px;
+}
+
+
+/* Sticky footer styles */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+/* captcha */
+.captcha_code {
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 4px;
+    padding: 3px;
+}
+
+/* for iconfont symbol */
+.icon {
+    width: 1em;
+    height: 1em;
+    vertical-align: -0.15em;
+    fill: currentColor;
+    overflow: hidden;
+}
+
+/* simditor */
+.simditor-body img {
+    max-width: 100%;
+    border-radius: 10%;
+}
