@@ -52,10 +52,10 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'http://localhost:8080'),
 
-    'asset_url' => env('ASSET_URL', 'http://localhost:81/'),
-    'mix_url' => env('MIX_ASSET_URL', 'http://localhost:81/'),
+    'asset_url' => env('ASSET_URL', 'http://localhost:8080/'),
+    'mix_url' => env('MIX_ASSET_URL', 'http://localhost:8080/'),
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

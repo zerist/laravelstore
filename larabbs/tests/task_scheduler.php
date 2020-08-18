@@ -319,6 +319,7 @@ function task()
     }
 }
 
+
 $scheduler = new Scheduler();
 $scheduler->newTask(task());
 $scheduler->run();

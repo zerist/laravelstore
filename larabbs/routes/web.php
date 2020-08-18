@@ -60,3 +60,11 @@ Route::resource('replies', 'RepliesController')->only(['show', 'store', 'destroy
 
 //notification 相关
 Route::resource('notifications', 'NotificationsController', ['only' => ['index']]);
+
+
+//Excel 相关
+Route::get('/excel/index', 'Excels\TestExcelController@index')->name('excels.index');
+Route::prefix('excel')->namespace('Excels')->group(function () {
+    Route::get('index', 'TestExcelController@index')->name('excels.index');
+    Route::post('import', 'TestExcelController@import');
+});

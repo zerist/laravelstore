@@ -537,9 +537,9 @@ eval("// removed by extract-text-webpack-plugin//# sourceURL=[module]\n//# sourc
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\learn\laravelstore\larabbs\resources\js\app.js */"./resources/js/app.js");
-__webpack_require__(/*! D:\xampp\htdocs\learn\laravelstore\larabbs\resources\sass\app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\learn\laravelstore\larabbs\resources\sass\_test.scss */"./resources/sass/_test.scss");
+__webpack_require__(/*! /Users/xukang/LaravelWork/laravelstore/larabbs/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /Users/xukang/LaravelWork/laravelstore/larabbs/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /Users/xukang/LaravelWork/laravelstore/larabbs/resources/sass/_test.scss */"./resources/sass/_test.scss");
 
 
 /***/ })
